@@ -11,6 +11,7 @@ pipeline {
         stage("Authenticate with GCloud") {
             steps {
                 script {
+                    sh 'cd /var/lib/jenkins/workspace/likeminds-stampede/'
                     sh 'gcloud container clusters get-credentials ${CLUSTER_NAME} --region ${LOCATION} --project ${PROJECT_ID} --internal-ip'
                 }
             }
