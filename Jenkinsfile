@@ -4,27 +4,18 @@ pipeline {
     stages {
         stage("Checkout") {
             steps {
-                checkout scm
+                git branch: 'feature/LM-8246_LoadTestingFramework', credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/LikeMinds-Stampede/'
             }
         }
 
         stage("Authenticate with GCloud") {
             steps {
                 script {
-                    sh 'cd /var/lib/jenkins/workspace/likeminds-stampede/'
                     sh 'gcloud container clusters get-credentials ${CLUSTER_NAME} --region ${LOCATION} --project ${PROJECT_ID} --internal-ip'
                 }
             }
         }
 
-        // stage("Middle Operation") {
-        //     steps {
-                // Build docker image from the code
-                // Push docker image to artifact registry
-                // Update docker image tag in terraform config files
-                // Proceed to deploy code using terraform
-        //     }
-        // }
 
         stage("Terraform init"){
             steps{
