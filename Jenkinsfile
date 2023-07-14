@@ -8,11 +8,19 @@ pipeline {
             }
         }
 
+        stage("Middle Operation") {
+            steps {
+                // Build docker image from the code
+                // Push docker image to artifact registry
+                // Update docker image tag in terraform config files
+                // Proceed to deploy code using terraform
+            }
+        }
+
         stage("Terraform init"){
             steps{
                 script{
-                    echo 'terraform init'
-                    // sh 'terraform init'
+                    sh 'terraform init'
                 }
             }
         }
@@ -20,8 +28,7 @@ pipeline {
         stage("Terraform action"){
             steps{
                 script{
-                    echo 'terraform ${action} --auto-approve'
-                    // sh 'terraform ${action} --auto-approve'
+                    sh 'terraform ${action} --auto-approve'
                 }
             }
         }

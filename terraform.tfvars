@@ -1,0 +1,6 @@
+project_id = "likeminds-nonprod-prj-24e1"
+region     = "asia-south1"
+cluster_name = "likeminds-load-testing-autopilot-cluster"
+namespace_name = "app-deploy-load"
+kettle_app_name = "kettle-load"
+kettle_app_docker_image = "asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-authentication/kettle:23"
