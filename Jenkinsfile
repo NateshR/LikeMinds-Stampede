@@ -1,10 +1,12 @@
 pipeline {
     agent any
-
+    tools {
+       terraform 'terraform'
+    }
     stages {
         stage("Checkout") {
             steps {
-                git branch: 'feature/LM-8246_LoadTestingFramework', credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/LikeMinds-Stampede/'
+                checkout scm
             }
         }
 
@@ -31,12 +33,6 @@ pipeline {
                     sh 'terraform ${action} --auto-approve'
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            cleanWs()
         }
     }
 }
