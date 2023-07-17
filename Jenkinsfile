@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    tools {
-       terraform 'terraform'
-    }
+   
     stages {
         stage("Checkout") {
             steps {
@@ -15,12 +13,6 @@ pipeline {
                 script {
                     sh 'gcloud container clusters get-credentials ${CLUSTER_NAME} --region ${LOCATION} --project ${PROJECT_ID} --internal-ip'
                 }
-            }
-        }
-
-        stage('terraform format check') {
-            steps{
-                sh 'terraform fmt'
             }
         }
 
