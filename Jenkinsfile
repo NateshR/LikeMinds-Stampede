@@ -12,10 +12,10 @@ pipeline {
             steps {
                 script {
                     writeFile (file: 'terraform_test.tfvars', 
-                    text: '''project_id='''++PROJECT_ID++'''
-region='''++LOCATION++'''
-cluster_name='''++CLUSTER_NAME++'''
-                    ''')
+                    text: """project_id=${PROJECT_ID}
+region=${LOCATION}
+cluster_name=${CLUSTER_NAME}
+                    """)
                 }
             }
         }
