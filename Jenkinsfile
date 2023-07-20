@@ -30,7 +30,8 @@ pipeline {
                     sh """terraform ${action} --auto-approve \
                     -var 'project_id=${PROJECT_ID}' \
                     -var 'region=${LOCATION}' \
-                    -var 'cluster_name=${CLUSTER_NAME}'
+                    -var 'cluster_name=${CLUSTER_NAME}' \
+                    -var 'namespace_name=${namespace_name}' \
                     """
                 }
             }
