@@ -32,7 +32,7 @@ pipeline {
                     -var 'region=${LOCATION}' \
                     -var 'cluster_name=${CLUSTER_NAME}' \
                     -var 'namespace_name=${namespace_name}' \
-                    -var 'enable_kettle=${enable_ketttle}' \
+                    -var 'enable_kettle=${enable_kettle}' \
                     -var 'kettle_app_name=${kettle_app_name}' \
                     -var 'kettle_app_docker_image=${kettle_app_docker_image}' \
                     -var 'enable_swarm=${enable_swarm}' \
