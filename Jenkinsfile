@@ -8,18 +8,6 @@ pipeline {
             }
         }
 
-        stage("Create a variables file") {
-            steps {
-                script {
-                    writeFile (file: 'terraform_test.tfvars', 
-                    text: """project_id='${PROJECT_ID}'
-region='${LOCATION}'
-cluster_name='${CLUSTER_NAME}'
-                    """)
-                }
-            }
-        }
-
         stage("Authenticate with GCloud") {
             steps {
                 script {
@@ -39,7 +27,11 @@ cluster_name='${CLUSTER_NAME}'
         stage("Terraform action"){
             steps{
                 script{
-                    sh 'terraform ${action} --auto-approve'
+                    sh """terraform ${action} --auto-approve \
+                    -var 'project_id=${PROJECT_ID}' \
+                    -var 'region=${LOCATION}' \
+                    -var 'cluster_name=${CLUSTER_NAME}'
+                    """
                 }
             }
         }
