@@ -1,4 +1,6 @@
 resource "kubernetes_deployment" "kettle-load" {
+  count = var.enable_kettle ? 1 : 0
+
   metadata {
     name = var.kettle_app_name
     namespace = kubernetes_namespace.app-deploy-load.metadata.0.name
@@ -41,5 +43,23 @@ resource "kubernetes_deployment" "kettle-load" {
         }
       }
     }
+  }
+}
+
+resource "kubernetes_service" "kettle-load" {
+  metadata {
+    name = var.kettle_app_name
+    namespace = var.namespace_name
+  }
+  spec {
+    selector = {
+      app = var.kettle_app_name
+    }
+    port {
+      name = "http"
+      port        = 8080
+      target_port = 8080
+    }
+    type = "ClusterIP"
   }
 }
