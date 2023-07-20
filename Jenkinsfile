@@ -28,9 +28,9 @@ pipeline {
             steps{
                 script{
                     sh """terraform ${action} --auto-approve \
-                    -var 'project_id=${PROJECT_ID}' \
-                    -var 'region=${LOCATION}' \
-                    -var 'cluster_name=${CLUSTER_NAME}' \
+                    -var 'project_id="${PROJECT_ID}"' \
+                    -var 'region="${LOCATION}"' \
+                    -var 'cluster_name="${CLUSTER_NAME}"' \
                     -var 'namespace_name=${namespace_name}' \
                     -var 'enable_kettle=${enable_kettle}' \
                     -var 'kettle_app_name=${kettle_app_name}' \
