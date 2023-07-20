@@ -1,6 +1,3 @@
-project_id = "likeminds-nonprod-prj-24e1"
-region     = "asia-south1"
-cluster_name = "likeminds-load-testing-autopilot-cluster"
 namespace_name = "app-deploy-load"
 enable_kettle = false
 kettle_app_name = "kettle-load"

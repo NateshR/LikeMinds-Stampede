@@ -27,7 +27,11 @@ pipeline {
         stage("Terraform action"){
             steps{
                 script{
-                    sh 'terraform ${action} --auto-approve'
+                    sh '''terraform ${action} --auto-approve\
+                    -var 'project_id=${PROJECT_ID}' \
+                    -var 'region=${LOCATION}' \
+                    -var 'cluster_name=${CLUSTER_NAME}'
+                    '''
                 }
             }
         }
