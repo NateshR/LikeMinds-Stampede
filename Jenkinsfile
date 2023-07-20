@@ -11,11 +11,11 @@ pipeline {
         stage("Create a variables file") {
             steps {
                 script {
-                    writeFile file: 'terraform_test.tfvars', 
-                    text: '''project_id=${PROJECT_ID}
-region=${LOCATION}
-cluster_name=${CLUSTER_NAME}
-                    '''
+                    writeFile (file: 'terraform_test.tfvars', 
+                    text: '''project_id='''++PROJECT_ID++'''
+region='''++LOCATION++'''
+cluster_name='''++CLUSTER_NAME++'''
+                    ''')
                 }
             }
         }
