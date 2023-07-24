@@ -80,6 +80,7 @@ resource "kubernetes_ingress_v1" "kettle-load" {
 
   spec {
     rule {
+      host = "34.111.93.224"
       http {
         path {
           backend {
