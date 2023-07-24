@@ -79,10 +79,10 @@ resource "kubernetes_ingress" "kettle-load" {
   }
 
   spec {
-    rules {
+    rule {
       host = "betaload.likeminds.community"
       http {
-        paths {
+        path {
           backend {
             service_name = var.kettle_app_name
             service_port = 8080
