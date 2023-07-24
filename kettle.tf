@@ -67,7 +67,7 @@ resource "kubernetes_service" "kettle-load" {
   }
 }
 
-resource "kubernetes_ingress" "kettle-load" {
+resource "kubernetes_ingress_v1" "kettle-load" {
   metadata {
     name = var.kettle_app_name
     namespace = var.namespace_name
