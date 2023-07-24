@@ -29,18 +29,28 @@ resource "kubernetes_deployment" "caravan-rabbitmq-load" {
         container {
           image = var.caravan_rabbitmq_app_docker_image
           name  = var.caravan_rabbitmq_app_name
-          ports {
+          port {
             container_port = 5672
           }
-
-          resources {
-            limits = {
-              cpu    = "0.5"
-              memory = "512Mi"
+          port {
+            container_port = 15672
+          }
+          env {
+            name = "RABBITMQ_DEFAULT_USER"
+            value_from {
+              secret_key_ref {
+                name = "rabbitmq-user-secret"
+                key = "username"
+              }
             }
-            requests = {
-              cpu    = "250m"
-              memory = "50Mi"
+          }
+          env {
+            name = "RABBITMQ_DEFAULT_PASS"
+            value_from {
+              secret_key_ref {
+                name = "rabbitmq-user-secret"
+                key = "password"
+              }
             }
           }
         }
