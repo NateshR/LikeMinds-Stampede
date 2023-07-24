@@ -2,7 +2,7 @@ resource "kubernetes_deployment" "caravan-load" {
   count = var.enable_caravan ? 1 : 0
 
   metadata {
-    name = var.caravan_app_name
+    name      = var.caravan_app_name
     namespace = kubernetes_namespace.app-deploy-load.metadata.0.name
     labels = {
       app = var.caravan_app_name
@@ -48,7 +48,7 @@ resource "kubernetes_deployment" "caravan-load" {
 
 resource "kubernetes_service" "caravan-load" {
   metadata {
-    name = var.caravan_app_name
+    name      = var.caravan_app_name
     namespace = var.namespace_name
   }
   spec {
@@ -56,7 +56,7 @@ resource "kubernetes_service" "caravan-load" {
       app = var.caravan_app_name
     }
     port {
-      name = "http"
+      name        = "http"
       port        = 8081
       target_port = 8081
     }

@@ -2,7 +2,7 @@ resource "kubernetes_deployment" "swarm-load" {
   count = var.enable_swarm ? 1 : 0
 
   metadata {
-    name = var.swarm_app_name
+    name      = var.swarm_app_name
     namespace = kubernetes_namespace.app-deploy-load.metadata.0.name
     labels = {
       app = var.swarm_app_name
@@ -48,7 +48,7 @@ resource "kubernetes_deployment" "swarm-load" {
 
 resource "kubernetes_service" "swarm-load" {
   metadata {
-    name = var.swarm_app_name
+    name      = var.swarm_app_name
     namespace = var.namespace_name
   }
   spec {
@@ -56,7 +56,7 @@ resource "kubernetes_service" "swarm-load" {
       app = var.swarm_app_name
     }
     port {
-      name = "http"
+      name        = "http"
       port        = 8080
       target_port = 8080
     }

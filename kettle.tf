@@ -2,7 +2,7 @@ resource "kubernetes_deployment" "kettle-load" {
   count = var.enable_kettle ? 1 : 0
 
   metadata {
-    name = var.kettle_app_name
+    name      = var.kettle_app_name
     namespace = kubernetes_namespace.app-deploy-load.metadata.0.name
     labels = {
       app = var.kettle_app_name
@@ -48,18 +48,54 @@ resource "kubernetes_deployment" "kettle-load" {
 
 resource "kubernetes_service" "kettle-load" {
   metadata {
-    name = var.kettle_app_name
+    name      = var.kettle_app_name
     namespace = var.namespace_name
+    annotations = {
+      "cloud.google.com/neg": "{\"ingress\": true}"
+    }
   }
   spec {
     selector = {
       app = var.kettle_app_name
     }
     port {
-      name = "http"
+      name        = "http"
       port        = 8080
       target_port = 8080
     }
     type = "ClusterIP"
+  }
+}
+
+resource "kubernetes_ingress" "kettle-load" {
+  metadata {
+    name = var.kettle_app_name
+    namespace = var.namespace_name
+    annotations = {
+      "kubernetes.io/ingress.class": "gce"
+      "kubernetes.io/ingress.allow-http": "true"
+      "kubernetes.io/ingress.global-static-ip-name": "likeminds-nonprod-caravan-celery-static-ip"
+    }
+  }
+
+  spec {
+    rules {
+      host = "betaload.likeminds.community"
+      http {
+        paths {
+          backend {
+            service_name = var.kettle_app_name
+            service_port = 8080
+          }
+
+          path = "/"
+          pathType = Prefix
+        }
+      }
+    }
+
+    tls {
+      secret_name = "likeminds-app-deploy-secret"
+    }
   }
 }
