@@ -80,7 +80,6 @@ resource "kubernetes_ingress_v1" "kettle-load" {
 
   spec {
     rule {
-      host = "betaload.likeminds.community"
       http {
         path {
           backend {
@@ -95,10 +94,6 @@ resource "kubernetes_ingress_v1" "kettle-load" {
           path = "/"
         }
       }
-    }
-
-    tls {
-      secret_name = "likeminds-app-deploy-secret"
     }
   }
 }
