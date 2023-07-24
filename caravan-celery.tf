@@ -79,7 +79,7 @@ resource "kubernetes_service" "caravan-celery-load" {
   }
 }
 
-resource "kubernetes_ingress_v1" "swarm-load" {
+resource "kubernetes_ingress_v1" "caravan-celery-load" {
   count = var.enable_caravan_celery ? 1 : 0
   
   metadata {

@@ -47,9 +47,14 @@ resource "kubernetes_deployment" "caravan-load" {
 }
 
 resource "kubernetes_service" "caravan-load" {
+  count = var.enable_caravan ? 1 : 0
+
   metadata {
     name      = var.caravan_app_name
     namespace = var.namespace_name
+    annotations = {
+      "cloud.google.com/neg": "{\"ingress\": true}"
+    }
   }
   spec {
     selector = {
@@ -61,5 +66,38 @@ resource "kubernetes_service" "caravan-load" {
       target_port = 8081
     }
     type = "ClusterIP"
+  }
+}
+
+resource "kubernetes_ingress_v1" "caravan-load" {
+  count = var.enable_caravan ? 1 : 0
+  
+  metadata {
+    name = var.caravan_app_name
+    namespace = var.namespace_name
+    annotations = {
+      "kubernetes.io/ingress.class": "gce"
+      "kubernetes.io/ingress.allow-http": "true"
+      "kubernetes.io/ingress.global-static-ip-name": "likeminds-nonprod-caravan-celery-static-ip"
+    }
+  }
+
+  spec {
+    rule {
+      http {
+        path {
+          backend {
+            service {
+              name = var.caravan_app_name
+              port {
+                number = 8081
+              }
+            }
+          }
+
+          path = "/"
+        }
+      }
+    }
   }
 }
