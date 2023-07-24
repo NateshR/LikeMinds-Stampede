@@ -84,12 +84,8 @@ resource "kubernetes_ingress" "kettle-load" {
       http {
         path {
           backend {
-            service {
-              name = var.kettle_app_name
-              port {
-                number = 8080
-              }
-            }
+            service_name = var.kettle_app_name
+            service_port = 8080
           }
 
           path = "/"
