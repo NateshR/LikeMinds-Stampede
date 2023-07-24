@@ -50,6 +50,9 @@ resource "kubernetes_service" "swarm-load" {
   metadata {
     name      = var.swarm_app_name
     namespace = var.namespace_name
+    annotations = {
+      "cloud.google.com/neg": "{\"ingress\": true}"
+    }
   }
   spec {
     selector = {
@@ -61,5 +64,36 @@ resource "kubernetes_service" "swarm-load" {
       target_port = 8080
     }
     type = "ClusterIP"
+  }
+}
+
+resource "kubernetes_ingress_v1" "swarm-load" {
+  metadata {
+    name = var.swarm_app_name
+    namespace = var.namespace_name
+    annotations = {
+      "kubernetes.io/ingress.class": "gce"
+      "kubernetes.io/ingress.allow-http": "true"
+      "kubernetes.io/ingress.global-static-ip-name": "likeminds-nonprod-caravan-celery-static-ip"
+    }
+  }
+
+  spec {
+    rule {
+      http {
+        path {
+          backend {
+            service {
+              name = var.swarm_app_name
+              port {
+                number = 8080
+              }
+            }
+          }
+
+          path = "/"
+        }
+      }
+    }
   }
 }
