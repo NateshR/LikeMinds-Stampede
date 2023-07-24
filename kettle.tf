@@ -89,7 +89,7 @@ resource "kubernetes_ingress" "kettle-load" {
           }
 
           path = "/"
-          pathType = Prefix
+          type = Prefix
         }
       }
     }
