@@ -34,7 +34,7 @@ pipeline {
 
                             docker.withRegistry('https://asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication') {
 
-                                def customImage = docker.build("kettle:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/Dockerfile.kettle-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER} .")
+                                def customImage = docker.build("kettle:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/Dockerfile.kettle-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/")
 
                                 /* Push the container to the custom Registry */
                                 customImage.push()
@@ -45,15 +45,15 @@ pipeline {
                     }
                 }
 
-                stage("Pushing Application Docker Image to Google Artifact Registry"){
-                    steps{
-                        script{
-                            sh 'gcloud auth configure-docker asia.gcr.io'
-                            sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER}'
-                            sh 'echo "Image Pushed to GCP"'
-                        }
-                    }
-                }
+                // stage("Pushing Application Docker Image to Google Artifact Registry"){
+                //     steps{
+                //         script{
+                //             sh 'gcloud auth configure-docker asia.gcr.io'
+                //             sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER}'
+                //             sh 'echo "Image Pushed to GCP"'
+                //         }
+                //     }
+                // }
 
                 stage("Checkout dir") {
                     steps {
