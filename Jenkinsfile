@@ -9,12 +9,6 @@ pipeline {
         }
 
         stage("Build Kettle Docker Image") {
-            when {
-                expression {
-                    return enable_kettle
-                }
-            }
-
             steps {
               script {
                     dir('likeminds-authentication') {
@@ -26,6 +20,24 @@ pipeline {
                         sh 'echo "Image Creation done"'
 
                         sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER}'
+                        sh 'echo "Image Pushed to GCP"'
+                    }
+                }  
+            }
+        }
+
+        stage("Build Swarm Docker Image") {
+            steps {
+              script {
+                    dir('likeminds-swarm') {
+                        git credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/LikeMinds-Swarm/'
+                        sh 'echo "Swarm code cloned"'
+
+                        sh 'gcloud auth configure-docker asia.gcr.io'
+                        docker.build("swarm:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-swarm/Dockerfile.swarm-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-swarm/swarm:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-swarm/")
+                        sh 'echo "Image Creation done"'
+
+                        sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-swarm/swarm:${BUILD_NUMBER}'
                         sh 'echo "Image Pushed to GCP"'
                     }
                 }  
@@ -61,7 +73,7 @@ pipeline {
                     -var 'kettle_app_docker_image=${kettle_app_docker_image}:${BUILD_NUMBER}' \
                     -var 'enable_swarm=${enable_swarm}' \
                     -var 'swarm_app_name=${swarm_app_name}' \
-                    -var 'swarm_app_docker_image=${swarm_app_docker_image}' \
+                    -var 'swarm_app_docker_image=${swarm_app_docker_image}:${BUILD_NUMBER}' \
                     -var 'enable_caravan=${enable_caravan}' \
                     -var 'caravan_app_name=${caravan_app_name}' \
                     -var 'caravan_app_docker_image=${caravan_app_docker_image}' \
