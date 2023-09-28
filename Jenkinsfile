@@ -8,6 +8,54 @@ pipeline {
             }
         }
 
+        stage("Build Kettle Docker Image") {
+            when {
+                expression {
+                    return enable_kettle
+                }
+            }
+
+            stages{
+                stage("Checkout code") {
+                    steps {
+                        script {
+                            dir('likeminds-authentication') {
+                            git credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/LikeMinds-Authentication/'
+                            }
+                        }
+                    }
+                }
+
+                stage("Building Application Docker Image"){
+                    steps{
+                        script{
+                            sh 'gcloud auth configure-docker asia.gcr.io'
+                            sh 'docker build -f Dockerfile.kettle-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-authentication/kettle:${BUILD_NUMBER} . '
+                            sh 'echo ${BUILD_NUMBER}'
+                        }
+                    }
+                }
+
+                // stage("Pushing Application Docker Image to Google Artifact Registry"){
+                //     steps{
+                //         script{
+                //             sh 'gcloud auth configure-docker asia.gcr.io'
+                //             sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-authentication/kettle:${BUILD_NUMBER}'
+                //         }
+                //     }
+                // }
+
+                // stage("Checkout dir") {
+                //     steps {
+                //         script {
+                //             sh 'cd ..'
+                //             }
+                //         }
+                //     }
+                // }
+            }
+        }
+
         stage("Authenticate with GCloud") {
             steps {
                 script {
