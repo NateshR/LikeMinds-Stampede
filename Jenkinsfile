@@ -18,7 +18,7 @@ pipeline {
             steps {
               script {
                     dir('likeminds-authentication') {
-                        git url: 'https://github.com/NateshR/LikeMinds-Authentication/'
+                        git credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/LikeMinds-Authentication/'
                         sh 'echo "Kettle code cloned"'
 
                         sh 'gcloud auth configure-docker asia.gcr.io'
