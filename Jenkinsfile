@@ -20,7 +20,8 @@ pipeline {
                     steps {
                         script {
                             dir('likeminds-authentication') {
-                            git credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/LikeMinds-Authentication/'
+                                git credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/LikeMinds-Authentication/'
+                                sh 'echo "Kettle code cloned"'
                             }
                         }
                     }
@@ -30,29 +31,31 @@ pipeline {
                     steps{
                         script{
                             sh 'gcloud auth configure-docker asia.gcr.io'
-                            sh 'docker build -f Dockerfile.kettle-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-authentication/kettle:${BUILD_NUMBER} . '
                             sh 'echo ${BUILD_NUMBER}'
+                            sh 'docker build -f Dockerfile.kettle-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER} . '
+                            sh 'echo "Image Creation done"'
                         }
                     }
                 }
 
-                // stage("Pushing Application Docker Image to Google Artifact Registry"){
-                //     steps{
-                //         script{
-                //             sh 'gcloud auth configure-docker asia.gcr.io'
-                //             sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-authentication/kettle:${BUILD_NUMBER}'
-                //         }
-                //     }
-                // }
+                stage("Pushing Application Docker Image to Google Artifact Registry"){
+                    steps{
+                        script{
+                            sh 'gcloud auth configure-docker asia.gcr.io'
+                            sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER}'
+                            sh 'echo "Image Pushed to GCP"'
+                        }
+                    }
+                }
 
-                // stage("Checkout dir") {
-                //     steps {
-                //         script {
-                //             sh 'cd ..'
-                //             }
-                //         }
-                //     }
-                // }
+                stage("Checkout dir") {
+                    steps {
+                        script {
+                            sh 'cd ..'
+                            sh 'echo "Directory Checked Out"'
+                        }
+                    }
+                }
             }
         }
 
