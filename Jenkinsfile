@@ -31,10 +31,10 @@ pipeline {
                     steps{
                         script{
                             sh 'gcloud auth configure-docker asia.gcr.io'
-                            
+
                             docker.withRegistry('https://asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication') {
 
-                                def customImage = docker.build("kettle:${env.BUILD_NUMBER}", "-f Dockerfile.kettle-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER} .")
+                                def customImage = docker.build("kettle:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/Dockerfile.kettle-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER} .")
 
                                 /* Push the container to the custom Registry */
                                 customImage.push()
