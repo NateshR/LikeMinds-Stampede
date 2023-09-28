@@ -18,58 +18,18 @@ pipeline {
             steps {
               script {
                     dir('likeminds-authentication') {
-                        git credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/LikeMinds-Authentication/'
+                        git url: 'https://github.com/NateshR/LikeMinds-Authentication/'
                         sh 'echo "Kettle code cloned"'
+
                         sh 'gcloud auth configure-docker asia.gcr.io'
-                        def kettleImage = docker.build("kettle:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/Dockerfile.kettle-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/")
+                        docker.build("kettle:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/Dockerfile.kettle-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/")
                         sh 'echo "Image Creation done"'
+
                         sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER}'
                         sh 'echo "Image Pushed to GCP"'
                     }
                 }  
             }
-
-            // stages{
-            //     stage("Checkout code") {
-            //         steps {
-            //             script {
-            //                 dir('likeminds-authentication') {
-            //                     git credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/LikeMinds-Authentication/'
-            //                     sh 'echo "Kettle code cloned"'
-            //                 }
-            //             }
-            //         }
-            //     }
-
-            //     stage("Building Application Docker Image"){
-            //         steps{
-            //             script{
-            //                 sh 'gcloud auth configure-docker asia.gcr.io'
-            //                 docker.build("kettle:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/Dockerfile.kettle-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/")
-            //                 sh 'echo "Image Creation done"'
-            //             }
-            //         }
-            //     }
-
-            //     stage("Pushing Application Docker Image to Google Artifact Registry"){
-            //         steps{
-            //             script{
-            //                 sh 'gcloud auth configure-docker asia.gcr.io'
-            //                 sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER}'
-            //                 sh 'echo "Image Pushed to GCP"'
-            //             }
-            //         }
-            //     }
-
-            //     stage("Checkout dir") {
-            //         steps {
-            //             script {
-            //                 sh 'cd ..'
-            //                 sh 'echo "Directory Checked Out"'
-            //             }
-            //         }
-            //     }
-            // }
         }
 
         stage("Authenticate with GCloud") {
@@ -98,7 +58,7 @@ pipeline {
                     -var 'namespace_name=${namespace_name}' \
                     -var 'enable_kettle=${enable_kettle}' \
                     -var 'kettle_app_name=${kettle_app_name}' \
-                    -var 'kettle_app_docker_image=${kettle_app_docker_image}' \
+                    -var 'kettle_app_docker_image=${kettle_app_docker_image}:${BUILD_NUMBER}' \
                     -var 'enable_swarm=${enable_swarm}' \
                     -var 'swarm_app_name=${swarm_app_name}' \
                     -var 'swarm_app_docker_image=${swarm_app_docker_image}' \
