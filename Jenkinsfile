@@ -10,7 +10,7 @@ pipeline {
 
         stage("Build Kettle Docker Image") {
             when {
-                enable_kettle true
+                params.enable_kettle true
             }
             steps {
                 echo 'Kettle Selected'
@@ -32,7 +32,7 @@ pipeline {
 
         stage("Build Swarm Docker Image") {
             when {
-                enable_swarm true
+                params.enable_swarm true
             }
             steps {
                 echo 'Swarm Selected'
@@ -54,7 +54,7 @@ pipeline {
 
         stage("Build Caravan Docker Image") {
             when {
-                enable_caravan true
+                params.enable_caravan true
             }
             steps {
                 echo 'Caravan Selected'
@@ -85,7 +85,7 @@ pipeline {
 
         stage("Build Caravan Celery Docker Image") {
             when {
-                enable_caravan_celery true
+                params.enable_caravan_celery true
             }
             steps {
                 echo 'Caravan Celery Selected'
