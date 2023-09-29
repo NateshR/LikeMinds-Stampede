@@ -96,7 +96,7 @@ resource "kubernetes_ingress_v1" "caravan-rabbitmq-load" {
     annotations = {
       "kubernetes.io/ingress.class": "gce"
       "kubernetes.io/ingress.allow-http": "true"
-      "kubernetes.io/ingress.global-static-ip-name": "likeminds-nonprod-caravan-celery-static-ip"
+      "kubernetes.io/ingress.global-static-ip-name": "caravan-rabbitmq-load-testing-external-ip"
     }
   }
 
