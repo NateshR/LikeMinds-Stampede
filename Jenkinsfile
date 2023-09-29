@@ -103,10 +103,10 @@ pipeline {
                         sh 'echo "Caravan Celery code cloned"'
 
                         sh 'gcloud auth configure-docker asia.gcr.io'
-                        docker.build("caravan-celery:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan/Dockerfile.caravan-celery-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-caravan/caravan-celery:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan/")
+                        docker.build("caravan-celery:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan-celery/Dockerfile.caravan-celery-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-caravan-celery/caravan-celery:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan-celery/")
                         sh 'echo "Caravan Celery Image Creation done"'
 
-                        sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-caravan/caravan-celery:${BUILD_NUMBER}'
+                        sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-caravan-celery/caravan-celery:${BUILD_NUMBER}'
                         sh 'echo "Caravan Celery Image Pushed to GCP"'
                     }
                 }
