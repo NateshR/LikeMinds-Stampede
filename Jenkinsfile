@@ -141,6 +141,14 @@ pipeline {
             }
         }
 
+        stage("Terraform import"){
+            steps{
+                script{
+                    sh 'terraform import kubernetes_namespace.app-deploy-load ${namespace_name}'
+                }
+            }
+        }
+
         stage("Terraform action"){
             steps{
                 script{

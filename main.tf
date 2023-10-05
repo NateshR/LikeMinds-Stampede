@@ -27,8 +27,8 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(data.google_container_cluster.likeminds-load-testing-autopilot-cluster.master_auth[0].cluster_ca_certificate)
 }
 
-# resource "kubernetes_namespace" "app-deploy-load" {
-#   metadata {
-#     name = var.namespace_name
-#   }
-# }
+resource "kubernetes_namespace" "app-deploy-load" {
+  metadata {
+    name = var.namespace_name
+  }
+}
