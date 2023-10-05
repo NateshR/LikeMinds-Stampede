@@ -144,7 +144,27 @@ pipeline {
         stage("Terraform import"){
             steps{
                 script{
-                    sh 'terraform import kubernetes_namespace.app-deploy-load ${namespace_name}'
+                    sh """terraform import kubernetes_namespace.app-deploy-load ${namespace_name} \
+                    -var 'project_id=${PROJECT_ID}' \
+                    -var 'region=${LOCATION}' \
+                    -var 'cluster_name=${CLUSTER_NAME}' \
+                    -var 'namespace_name=${namespace_name}' \
+                    -var 'enable_kettle=${enable_kettle}' \
+                    -var 'kettle_app_name=${kettle_app_name}' \
+                    -var 'kettle_app_docker_image=${kettle_app_docker_image}:${BUILD_NUMBER}' \
+                    -var 'enable_swarm=${enable_swarm}' \
+                    -var 'swarm_app_name=${swarm_app_name}' \
+                    -var 'swarm_app_docker_image=${swarm_app_docker_image}:${BUILD_NUMBER}' \
+                    -var 'enable_caravan=${enable_caravan}' \
+                    -var 'caravan_app_name=${caravan_app_name}' \
+                    -var 'caravan_app_docker_image=${caravan_app_docker_image}:${BUILD_NUMBER}' \
+                    -var 'enable_caravan_celery=${enable_caravan_celery}' \
+                    -var 'caravan_celery_app_name=${caravan_celery_app_name}' \
+                    -var 'caravan_celery_app_docker_image=${caravan_celery_app_docker_image}:${BUILD_NUMBER}' \
+                    -var 'enable_caravan_rabbitmq=${enable_caravan_rabbitmq}' \
+                    -var 'caravan_rabbitmq_app_name=${caravan_rabbitmq_app_name}' \
+                    -var 'caravan_rabbitmq_app_docker_image=${caravan_rabbitmq_app_docker_image}'
+                    """
                 }
             }
         }
