@@ -13,6 +13,9 @@ pipeline {
                 expression {
                     return params.enable_kettle
                 }
+                expression {
+                    return params.action == 'apply'
+                }
             }
             steps {
                 echo 'Kettle Selected'
@@ -37,6 +40,9 @@ pipeline {
                 expression {
                     return params.enable_swarm
                 }
+                expression {
+                    return params.action == 'apply'
+                }
             }
             steps {
                 echo 'Swarm Selected'
@@ -60,6 +66,9 @@ pipeline {
             when {
                 expression {
                     return params.enable_caravan
+                }
+                expression {
+                    return params.action == 'apply'
                 }
             }
             steps {
@@ -93,6 +102,9 @@ pipeline {
             when {
                 expression {
                     return params.enable_caravan_celery
+                }
+                expression {
+                    return params.action == 'apply'
                 }
             }
             steps {
