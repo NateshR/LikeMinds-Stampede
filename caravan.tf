@@ -78,7 +78,7 @@ resource "kubernetes_ingress_v1" "caravan-load" {
     annotations = {
       "kubernetes.io/ingress.class": "gce"
       "kubernetes.io/ingress.allow-http": "true"
-      "kubernetes.io/ingress.global-static-ip-name": "caravan-load-testing-external-static-ip"
+      "kubernetes.io/ingress.global-static-ip-name": "caravan-load-testing-static-ip"
     }
   }
 
