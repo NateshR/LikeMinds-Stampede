@@ -136,7 +136,15 @@ pipeline {
         stage("Terraform init"){
             steps{
                 script{
-                    sh """terraform init \
+                    sh 'terraform init'
+                }
+            }
+        }
+
+        stage("Terraform action"){
+            steps{
+                script{
+                    sh """terraform ${action} --auto-approve \
                     -var 'project_id=${PROJECT_ID}' \
                     -var 'region=${LOCATION}' \
                     -var 'cluster_name=${CLUSTER_NAME}' \
@@ -155,23 +163,8 @@ pipeline {
                     -var 'caravan_celery_app_docker_image=${caravan_celery_app_docker_image}:${BUILD_NUMBER}' \
                     -var 'enable_caravan_rabbitmq=${enable_caravan_rabbitmq}' \
                     -var 'caravan_rabbitmq_app_name=${caravan_rabbitmq_app_name}' \
-                    -var 'caravan_rabbitmq_app_docker_image=${caravan_rabbitmq_app_docker_image}'"""
-                }
-            }
-        }
-
-        stage("Terraform import"){
-            steps{
-                script{
-                    sh """terraform import kubernetes_namespace.app-deploy-load ${namespace_name}"""
-                }
-            }
-        }
-
-        stage("Terraform action"){
-            steps{
-                script{
-                    sh """terraform ${action} --auto-approve"""
+                    -var 'caravan_rabbitmq_app_docker_image=${caravan_rabbitmq_app_docker_image}'
+                    """
                 }
             }
         }
