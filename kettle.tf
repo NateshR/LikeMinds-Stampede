@@ -78,7 +78,7 @@ resource "kubernetes_ingress_v1" "kettle-load" {
     annotations = {
       "kubernetes.io/ingress.class": "gce"
       "kubernetes.io/ingress.allow-http": "true"
-      "kubernetes.io/ingress.global-static-ip-name": "likeminds-nonprod-caravan-celery-static-ip"
+      "kubernetes.io/ingress.regional-static-ip-name": "kettle-load-testing-static-ip"
     }
   }
 
