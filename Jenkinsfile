@@ -25,7 +25,7 @@ pipeline {
                         sh 'echo "Kettle code cloned"'
 
                         sh 'gcloud auth configure-docker asia.gcr.io'
-                        docker.build("kettle:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/Dockerfile.kettle-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/")
+                        docker.build("kettle:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/Dockerfile.kettle-load -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-authentication/")
                         sh 'echo "Kettle Image Creation done"'
 
                         sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-authentication/kettle:${BUILD_NUMBER}'
@@ -52,7 +52,7 @@ pipeline {
                         sh 'echo "Swarm code cloned"'
 
                         sh 'gcloud auth configure-docker asia.gcr.io'
-                        docker.build("swarm:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-swarm/Dockerfile.swarm-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-swarm/swarm:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-swarm/")
+                        docker.build("swarm:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-swarm/Dockerfile.swarm-load -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-swarm/swarm:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-swarm/")
                         sh 'echo "Swarm Image Creation done"'
 
                         sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-swarm/swarm:${BUILD_NUMBER}'
@@ -79,16 +79,16 @@ pipeline {
                         sh 'echo "Caravan code cloned"'
 
                         sh '''
-                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="sudo chown -R jenkins /home/apps/caravan-beta/"
-                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-beta/Togther && git checkout development && git pull"
-                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="chmod +x /home/apps/caravan-beta/Togther/Migrationfile-caravan-beta.sh"
-                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command=". /home/apps/caravan-beta/Togther/Migrationfile-caravan-beta.sh"
-                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-beta/Togther && git checkout ."
+                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="sudo chown -R jenkins /home/apps/caravan-load/"
+                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-load/Togther && git checkout development && git pull"
+                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="chmod +x /home/apps/caravan-load/Togther/Migrationfile-caravan-load.sh"
+                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command=". /home/apps/caravan-load/Togther/Migrationfile-caravan-load.sh"
+                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-load/Togther && git checkout ."
                         '''
                         sh 'echo "Caravan Migration done"'
 
                         sh 'gcloud auth configure-docker asia.gcr.io'
-                        docker.build("caravan:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan/Dockerfile.caravan-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-caravan/caravan:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan/")
+                        docker.build("caravan:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan/Dockerfile.caravan-load -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-caravan/caravan:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan/")
                         sh 'echo "Caravan Image Creation done"'
 
                         sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-caravan/caravan:${BUILD_NUMBER}'
@@ -115,7 +115,7 @@ pipeline {
                         sh 'echo "Caravan Celery code cloned"'
 
                         sh 'gcloud auth configure-docker asia.gcr.io'
-                        docker.build("caravan-celery:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan-celery/Dockerfile.caravan-celery-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-caravan-celery/caravan-celery:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan-celery/")
+                        docker.build("caravan-celery:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan-celery/Dockerfile.caravan-celery-load -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-caravan-celery/caravan-celery:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan-celery/")
                         sh 'echo "Caravan Celery Image Creation done"'
 
                         sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-caravan-celery/caravan-celery:${BUILD_NUMBER}'
