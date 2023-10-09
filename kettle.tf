@@ -35,10 +35,6 @@ resource "kubernetes_deployment" "kettle-load" {
               cpu    = "0.5"
               memory = "512Mi"
             }
-            requests = {
-              cpu    = "250m"
-              memory = "50Mi"
-            }
           }
         }
       }
@@ -78,7 +74,7 @@ resource "kubernetes_ingress_v1" "kettle-load" {
     annotations = {
       "kubernetes.io/ingress.class": "gce"
       "kubernetes.io/ingress.allow-http": "true"
-      "kubernetes.io/ingress.global-static-ip-name": "likeminds-nonprod-caravan-celery-static-ip"
+      "kubernetes.io/ingress.global-static-ip-name": "kettle-load-testing-static-ip"
     }
   }
 
