@@ -1,3 +1,7 @@
+variable "action" {
+  description = "action"
+}
+
 variable "project_id" {
   description = "project id"
 }

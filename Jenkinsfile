@@ -145,6 +145,7 @@ pipeline {
             steps{
                 script{
                     sh """terraform ${action} --auto-approve \
+                    -var 'action=${action}' \
                     -var 'project_id=${PROJECT_ID}' \
                     -var 'region=${LOCATION}' \
                     -var 'cluster_name=${CLUSTER_NAME}' \

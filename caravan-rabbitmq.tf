@@ -119,3 +119,16 @@ resource "kubernetes_ingress_v1" "caravan-rabbitmq-load" {
     }
   }
 }
+
+resource "kubernetes_secret_v1" "rabbitmq-user-secret" {
+  metadata {
+    name = "rabbitmq-user-secret"
+    namespace = var.namespace_name
+  }
+
+  data = {
+    username = "caravan-celery-load-user"
+    password = "caravan-celery-load-user-password"
+  }
+
+}
