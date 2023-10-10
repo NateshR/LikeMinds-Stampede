@@ -3,7 +3,7 @@ resource "kubernetes_deployment" "caravan-load" {
 
   metadata {
     name      = var.caravan_app_name
-    namespace = kubernetes_namespace.app-deploy-load.metadata.0.name
+    namespace = kubernetes_namespace.app-deploy-load.0.metadata.0.name
     labels = {
       app = var.caravan_app_name
     }
@@ -47,12 +47,12 @@ resource "kubernetes_service" "caravan-load" {
 
   metadata {
     name      = var.caravan_app_name
-    namespace = var.namespace_name
+    namespace = var.namespace_name.0
     annotations = {
       "cloud.google.com/neg": "{\"ingress\": true}"
     }
   }
-  
+
   spec {
     selector = {
       app = var.caravan_app_name
@@ -71,7 +71,7 @@ resource "kubernetes_ingress_v1" "caravan-load" {
   
   metadata {
     name = var.caravan_app_name
-    namespace = var.namespace_name
+    namespace = var.namespace_name.0
     annotations = {
       "kubernetes.io/ingress.class": "gce"
       "kubernetes.io/ingress.allow-http": "true"
