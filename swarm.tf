@@ -32,12 +32,8 @@ resource "kubernetes_deployment" "swarm-load" {
 
           resources {
             limits = {
-              cpu    = "0.5"
-              memory = "512Mi"
-            }
-            requests = {
-              cpu    = "250m"
-              memory = "50Mi"
+              cpu    = var.swarm_cpu
+              memory = var.swarm_memory
             }
           }
         }
@@ -56,6 +52,7 @@ resource "kubernetes_service" "swarm-load" {
       "cloud.google.com/neg": "{\"ingress\": true}"
     }
   }
+  
   spec {
     selector = {
       app = var.swarm_app_name

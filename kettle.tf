@@ -32,8 +32,8 @@ resource "kubernetes_deployment" "kettle-load" {
 
           resources {
             limits = {
-              cpu    = "0.5"
-              memory = "512Mi"
+              cpu    = var.kettle_cpu
+              memory = var.kettle_memory
             }
           }
         }
@@ -52,6 +52,7 @@ resource "kubernetes_service" "kettle-load" {
       "cloud.google.com/neg": "{\"ingress\": true}"
     }
   }
+
   spec {
     selector = {
       app = var.kettle_app_name

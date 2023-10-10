@@ -32,12 +32,8 @@ resource "kubernetes_deployment" "caravan-load" {
 
           resources {
             limits = {
-              cpu    = "0.5"
-              memory = "512Mi"
-            }
-            requests = {
-              cpu    = "250m"
-              memory = "50Mi"
+              cpu    = var.caravan_cpu
+              memory = var.caravan_memory
             }
           }
         }
@@ -56,6 +52,7 @@ resource "kubernetes_service" "caravan-load" {
       "cloud.google.com/neg": "{\"ingress\": true}"
     }
   }
+  
   spec {
     selector = {
       app = var.caravan_app_name
