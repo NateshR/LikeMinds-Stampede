@@ -108,15 +108,3 @@ resource "kubernetes_ingress_v1" "caravan-celery-load" {
     }
   }
 }
-
-resource "kubernetes_secret_v1" "caravan-celery-secret" {
-  metadata {
-    name = "caravan-celery-secret"
-    namespace = var.namespace_name
-  }
-
-  data = {
-    CELERY_BROKER_URL = "amqp://caravan-celery-load-user:caravan-celery-load-user-password@caravan-rabbitmq-load:5672/likeminds_celery"
-  }
-
-}
