@@ -3,7 +3,7 @@ resource "kubernetes_deployment" "kettle-load" {
 
   metadata {
     name      = var.kettle_app_name
-    namespace = kubernetes_namespace.app-deploy-load.0.metadata.0.name
+    namespace = var.namespace_name
     labels = {
       app = var.kettle_app_name
     }
@@ -47,7 +47,7 @@ resource "kubernetes_service" "kettle-load" {
 
   metadata {
     name      = var.kettle_app_name
-    namespace = var.namespace_name.0
+    namespace = var.namespace_name
     annotations = {
       "cloud.google.com/neg": "{\"ingress\": true}"
     }
@@ -71,7 +71,7 @@ resource "kubernetes_ingress_v1" "kettle-load" {
   
   metadata {
     name = var.kettle_app_name
-    namespace = var.namespace_name.0
+    namespace = var.namespace_name
     annotations = {
       "kubernetes.io/ingress.class": "gce"
       "kubernetes.io/ingress.allow-http": "true"

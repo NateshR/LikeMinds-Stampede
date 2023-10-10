@@ -3,7 +3,7 @@ resource "kubernetes_deployment" "caravan-celery-load" {
 
   metadata {
     name = var.caravan_celery_app_name
-    namespace = kubernetes_namespace.app-deploy-load.0.metadata.0.name
+    namespace = var.namespace_name
     labels = {
       app = var.caravan_celery_app_name
     }
@@ -57,7 +57,7 @@ resource "kubernetes_service" "caravan-celery-load" {
   
   metadata {
     name = var.caravan_celery_app_name
-    namespace = var.namespace_name.0
+    namespace = var.namespace_name
     annotations = {
       "cloud.google.com/neg": "{\"ingress\": true}"
     }
@@ -81,7 +81,7 @@ resource "kubernetes_ingress_v1" "caravan-celery-load" {
   
   metadata {
     name = var.caravan_celery_app_name
-    namespace = var.namespace_name.0
+    namespace = var.namespace_name
     annotations = {
       "kubernetes.io/ingress.class": "gce"
       "kubernetes.io/ingress.allow-http": "true"
@@ -112,7 +112,7 @@ resource "kubernetes_ingress_v1" "caravan-celery-load" {
 resource "kubernetes_secret_v1" "caravan-celery-secret" {
   metadata {
     name = "caravan-celery-secret"
-    namespace = var.namespace_name.0
+    namespace = var.namespace_name
   }
 
   data = {

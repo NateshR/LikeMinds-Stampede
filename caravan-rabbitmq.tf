@@ -3,7 +3,7 @@ resource "kubernetes_deployment" "caravan-rabbitmq-load" {
 
   metadata {
     name = var.caravan_rabbitmq_app_name
-    namespace = kubernetes_namespace.app-deploy-load.0.metadata.0.name
+    namespace = var.namespace_name
     labels = {
       app = var.caravan_rabbitmq_app_name
     }
@@ -64,7 +64,7 @@ resource "kubernetes_service" "caravan-rabbitmq-load" {
 
   metadata {
     name = var.caravan_rabbitmq_app_name
-    namespace = var.namespace_name.0
+    namespace = var.namespace_name
     annotations = {
       "cloud.google.com/neg": "{\"ingress\": true}"
     }
@@ -92,7 +92,7 @@ resource "kubernetes_ingress_v1" "caravan-rabbitmq-load" {
   
   metadata {
     name = var.caravan_rabbitmq_app_name
-    namespace = var.namespace_name.0
+    namespace = var.namespace_name
     annotations = {
       "kubernetes.io/ingress.class": "gce"
       "kubernetes.io/ingress.allow-http": "true"
@@ -123,7 +123,7 @@ resource "kubernetes_ingress_v1" "caravan-rabbitmq-load" {
 resource "kubernetes_secret_v1" "rabbitmq-user-secret" {
   metadata {
     name = "rabbitmq-user-secret"
-    namespace = var.namespace_name.0
+    namespace = var.namespace_name
   }
 
   data = {
