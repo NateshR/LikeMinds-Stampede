@@ -145,7 +145,6 @@ pipeline {
             steps{
                 script{
                     sh """terraform ${action} --auto-approve \
-                    -var 'action=${action}' \
                     -var 'project_id=${PROJECT_ID}' \
                     -var 'region=${LOCATION}' \
                     -var 'cluster_name=${CLUSTER_NAME}' \
@@ -165,14 +164,15 @@ pipeline {
                     -var 'caravan_app_docker_image=${caravan_app_docker_image}:${BUILD_NUMBER}' \
                     -var 'caravan_cpu=${caravan_cpu}' \
                     -var 'caravan_memory=${caravan_memory}' \
-                    -var 'enable_caravan_celery=${enable_caravan_celery}' \
                     -var 'caravan_celery_app_name=${caravan_celery_app_name}' \
                     -var 'caravan_celery_app_docker_image=${caravan_celery_app_docker_image}:${BUILD_NUMBER}' \
                     -var 'caravan_celery_cpu=${caravan_celery_cpu}' \
                     -var 'caravan_celery_memory=${caravan_celery_memory}' \
-                    -var 'enable_caravan_rabbitmq=${enable_caravan_rabbitmq}' \
+                    -var 'caravan_celery_broker_url=${caravan_celery_broker_url}' \
                     -var 'caravan_rabbitmq_app_name=${caravan_rabbitmq_app_name}' \
-                    -var 'caravan_rabbitmq_app_docker_image=${caravan_rabbitmq_app_docker_image}'
+                    -var 'caravan_rabbitmq_app_docker_image=${caravan_rabbitmq_app_docker_image}' \
+                    -var 'caravan_rabbitmq_username=${caravan_rabbitmq_username}' \
+                    -var 'caravan_rabbitmq_password=${caravan_rabbitmq_password}'
                     """
                 }
             }

@@ -28,8 +28,6 @@ provider "kubernetes" {
 }
 
 resource "kubernetes_namespace" "app-deploy-load" {
-  count = var.action == "apply" ? 1 : 0
-
   metadata {
     name = var.namespace_name
   }

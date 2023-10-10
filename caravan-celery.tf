@@ -1,5 +1,5 @@
 resource "kubernetes_deployment" "caravan-celery-load" {
-  count = var.enable_caravan_celery ? 1 : 0
+  count = var.enable_caravan ? 1 : 0
 
   metadata {
     name = var.caravan_celery_app_name
@@ -53,7 +53,7 @@ resource "kubernetes_deployment" "caravan-celery-load" {
 }
 
 resource "kubernetes_service" "caravan-celery-load" {
-  count = var.enable_caravan_celery ? 1 : 0
+  count = var.enable_caravan ? 1 : 0
   
   metadata {
     name = var.caravan_celery_app_name
@@ -77,7 +77,7 @@ resource "kubernetes_service" "caravan-celery-load" {
 }
 
 resource "kubernetes_ingress_v1" "caravan-celery-load" {
-  count = var.enable_caravan_celery ? 1 : 0
+  count = var.enable_caravan ? 1 : 0
   
   metadata {
     name = var.caravan_celery_app_name
@@ -110,13 +110,15 @@ resource "kubernetes_ingress_v1" "caravan-celery-load" {
 }
 
 resource "kubernetes_secret_v1" "caravan-celery-secret" {
+  count = var.enable_caravan ? 1 : 0
+  
   metadata {
     name = "caravan-celery-secret"
     namespace = var.namespace_name
   }
 
   data = {
-    CELERY_BROKER_URL = "amqp://caravan-celery-load-user:caravan-celery-load-user-password@caravan-rabbitmq-load:5672/likeminds_celery"
+    CELERY_BROKER_URL = var.caravan_celery_broker_url
   }
 
 }

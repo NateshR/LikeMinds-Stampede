@@ -1,7 +1,3 @@
-variable "action" {
-  description = "action"
-}
-
 variable "project_id" {
   description = "project id"
 }
@@ -78,10 +74,6 @@ variable "caravan_memory" {
   description = "caravan memory"
 }
 
-variable "enable_caravan_celery" {
-  description = "if to enable caravan celery service"
-}
-
 variable "caravan_celery_app_name" {
   description = "caravan celery app name"
 }
@@ -98,8 +90,8 @@ variable "caravan_celery_memory" {
   description = "caravan celery memory"
 }
 
-variable "enable_caravan_rabbitmq" {
-  description = "if to enable caravan rabbitmq service"
+variable "caravan_celery_broker_url" {
+  description = "caravan celery broker url"
 }
 
 variable "caravan_rabbitmq_app_name" {
@@ -108,4 +100,12 @@ variable "caravan_rabbitmq_app_name" {
 
 variable "caravan_rabbitmq_app_docker_image" {
   description = "caravan rabbitmq app docker image"
+}
+
+variable "caravan_rabbitmq_username" {
+  description = "caravan rabbitmq username"
+}
+
+variable "caravan_rabbitmq_password" {
+  description = "caravan rabbitmq password"
 }

@@ -1,5 +1,5 @@
 resource "kubernetes_deployment" "caravan-rabbitmq-load" {
-  count = var.enable_caravan_rabbitmq ? 1 : 0
+  count = var.enable_caravan ? 1 : 0
 
   metadata {
     name = var.caravan_rabbitmq_app_name
@@ -60,7 +60,7 @@ resource "kubernetes_deployment" "caravan-rabbitmq-load" {
 }
 
 resource "kubernetes_service" "caravan-rabbitmq-load" {
-  count = var.enable_caravan_rabbitmq ? 1 : 0
+  count = var.enable_caravan ? 1 : 0
 
   metadata {
     name = var.caravan_rabbitmq_app_name
@@ -88,7 +88,7 @@ resource "kubernetes_service" "caravan-rabbitmq-load" {
 }
 
 resource "kubernetes_ingress_v1" "caravan-rabbitmq-load" {
-  count = var.enable_caravan_rabbitmq ? 1 : 0
+  count = var.enable_caravan ? 1 : 0
   
   metadata {
     name = var.caravan_rabbitmq_app_name
@@ -121,14 +121,16 @@ resource "kubernetes_ingress_v1" "caravan-rabbitmq-load" {
 }
 
 resource "kubernetes_secret_v1" "rabbitmq-user-secret" {
+  count = var.enable_caravan ? 1 : 0
+  
   metadata {
     name = "rabbitmq-user-secret"
     namespace = var.namespace_name
   }
 
   data = {
-    username = "caravan-celery-load-user"
-    password = "caravan-celery-load-user-password"
+    username = var.caravan_rabbitmq_username
+    password = var.caravan_rabbitmq_password
   }
 
 }
