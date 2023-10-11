@@ -101,7 +101,7 @@ pipeline {
         stage("Build Caravan Celery Docker Image") {
             when {
                 expression {
-                    return params.enable_caravan_celery
+                    return params.enable_caravan
                 }
                 expression {
                     return params.action == 'apply'
