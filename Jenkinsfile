@@ -75,12 +75,12 @@ pipeline {
                 echo 'Caravan Selected'
                 script {
                     dir('likeminds-caravan') {
-                        git branch: 'development', credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/Togther/'
+                        git branch: 'feature/LM-9886_LoadTestingFramework', credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/Togther/'
                         sh 'echo "Caravan code cloned"'
 
                         sh '''
                         gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="sudo chown -R jenkins /home/apps/caravan-load-testing/"
-                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-load-testing/Togther && git checkout development && git pull"
+                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-load-testing/Togther && git checkout feature/LM-9886_LoadTestingFramework && git pull"
                         gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="chmod +x /home/apps/caravan-load-testing/Togther/Migrationfile-caravan-load.sh"
                         gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command=". /home/apps/caravan-load-testing/Togther/Migrationfile-caravan-load.sh"
                         gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-load-testing/Togther && git checkout ."
