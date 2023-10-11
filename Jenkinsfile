@@ -52,7 +52,7 @@ pipeline {
                         sh 'echo "Swarm code cloned"'
 
                         sh 'gcloud auth configure-docker asia.gcr.io'
-                        docker.build("swarm:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-swarm/Dockerfile.swarm-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-swarm/swarm:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-swarm/")
+                        docker.build("swarm:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-swarm/Dockerfile.swarm-load -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-swarm/swarm:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-swarm/")
                         sh 'echo "Swarm Image Creation done"'
 
                         sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-swarm/swarm:${BUILD_NUMBER}'
