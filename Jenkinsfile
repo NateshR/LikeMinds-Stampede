@@ -75,20 +75,20 @@ pipeline {
                 echo 'Caravan Selected'
                 script {
                     dir('likeminds-caravan') {
-                        git branch: 'development', credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/Togther/'
+                        git branch: 'feature/LM-9886_LoadTestingFramework', credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/Togther/'
                         sh 'echo "Caravan code cloned"'
 
                         sh '''
-                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="sudo chown -R jenkins /home/apps/caravan-load/"
-                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-load/Togther && git checkout development && git pull"
-                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="chmod +x /home/apps/caravan-load/Togther/Migrationfile-caravan-beta.sh"
-                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command=". /home/apps/caravan-load/Togther/Migrationfile-caravan-beta.sh"
-                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-load/Togther && git checkout ."
+                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="sudo chown -R jenkins /home/apps/caravan-load-testing/"
+                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-load-testing/Togther && git checkout development && git pull"
+                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="chmod +x /home/apps/caravan-load-testing/Togther/Migrationfile-caravan-load.sh"
+                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command=". /home/apps/caravan-load-testing/Togther/Migrationfile-caravan-load.sh"
+                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-load-testing/Togther && git checkout ."
                         '''
                         sh 'echo "Caravan Migration done"'
 
                         sh 'gcloud auth configure-docker asia.gcr.io'
-                        docker.build("caravan:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan/Dockerfile.caravan-beta -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-caravan/caravan:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan/")
+                        docker.build("caravan:${env.BUILD_NUMBER}", "-f /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan/Dockerfile.caravan-load -t asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-caravan/caravan:${BUILD_NUMBER} /var/lib/jenkins/workspace/likeminds-stampede/likeminds-caravan/")
                         sh 'echo "Caravan Image Creation done"'
 
                         sh 'docker push asia.gcr.io/likeminds-nonprod-prj-24e1/github.com/nateshr/likeminds-stampede/likeminds-caravan/caravan:${BUILD_NUMBER}'
