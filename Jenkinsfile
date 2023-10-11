@@ -75,7 +75,7 @@ pipeline {
                 echo 'Caravan Selected'
                 script {
                     dir('likeminds-caravan') {
-                        git branch: 'feature/LM-9886_LoadTestingFramework', credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/Togther/'
+                        git branch: 'development', credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/Togther/'
                         sh 'echo "Caravan code cloned"'
 
                         sh '''
