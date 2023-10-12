@@ -81,7 +81,7 @@ resource "kubernetes_ingress_v1" "kettle-load" {
 
   spec {
     rule {
-      host = "kettle-load.likeminds.community"
+      host = "kettle-loadtest.likeminds.community"
       http {
         path {
           backend {
