@@ -84,6 +84,8 @@ resource "kubernetes_ingress_v1" "caravan-load" {
       host = "caravan-loadtest.likeminds.community"
       http {
         path {
+          path = "/"
+          path_type = "Prefix"
           backend {
             service {
               name = var.caravan_app_name
@@ -92,8 +94,6 @@ resource "kubernetes_ingress_v1" "caravan-load" {
               }
             }
           }
-
-          path = "/"
         }
       }
     }

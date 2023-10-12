@@ -104,6 +104,8 @@ resource "kubernetes_ingress_v1" "caravan-rabbitmq-load" {
     rule {
       http {
         path {
+          path = "/"
+          path_type = "Prefix"
           backend {
             service {
               name = var.caravan_rabbitmq_app_name
@@ -112,8 +114,6 @@ resource "kubernetes_ingress_v1" "caravan-rabbitmq-load" {
               }
             }
           }
-
-          path = "/"
         }
       }
     }

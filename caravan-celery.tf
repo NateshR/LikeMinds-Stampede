@@ -93,6 +93,8 @@ resource "kubernetes_ingress_v1" "caravan-celery-load" {
     rule {
       http {
         path {
+          path = "/"
+          path_type = "Prefix"
           backend {
             service {
               name = var.caravan_celery_app_name
@@ -101,8 +103,6 @@ resource "kubernetes_ingress_v1" "caravan-celery-load" {
               }
             }
           }
-
-          path = "/"
         }
       }
     }
