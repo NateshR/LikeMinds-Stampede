@@ -1,3 +1,18 @@
+resource "kubernetes_secret_v1" "rabbitmq-user-secret" {
+  count = var.enable_caravan ? 1 : 0
+  
+  metadata {
+    name = "rabbitmq-user-secret"
+    namespace = var.namespace_name
+  }
+
+  data = {
+    username = var.caravan_rabbitmq_username
+    password = var.caravan_rabbitmq_password
+  }
+
+}
+
 resource "kubernetes_deployment" "caravan-rabbitmq-load" {
   count = var.enable_caravan ? 1 : 0
 
@@ -118,19 +133,4 @@ resource "kubernetes_ingress_v1" "caravan-rabbitmq-load" {
       }
     }
   }
-}
-
-resource "kubernetes_secret_v1" "rabbitmq-user-secret" {
-  count = var.enable_caravan ? 1 : 0
-  
-  metadata {
-    name = "rabbitmq-user-secret"
-    namespace = var.namespace_name
-  }
-
-  data = {
-    username = var.caravan_rabbitmq_username
-    password = var.caravan_rabbitmq_password
-  }
-
 }

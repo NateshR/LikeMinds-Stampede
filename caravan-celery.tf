@@ -1,3 +1,17 @@
+resource "kubernetes_secret_v1" "caravan-celery-secret" {
+  count = var.enable_caravan ? 1 : 0
+  
+  metadata {
+    name = "caravan-celery-secret"
+    namespace = var.namespace_name
+  }
+
+  data = {
+    CELERY_BROKER_URL = var.caravan_celery_broker_url
+  }
+
+}
+
 resource "kubernetes_deployment" "caravan-celery-load" {
   count = var.enable_caravan ? 1 : 0
 
@@ -107,18 +121,4 @@ resource "kubernetes_ingress_v1" "caravan-celery-load" {
       }
     }
   }
-}
-
-resource "kubernetes_secret_v1" "caravan-celery-secret" {
-  count = var.enable_caravan ? 1 : 0
-  
-  metadata {
-    name = "caravan-celery-secret"
-    namespace = var.namespace_name
-  }
-
-  data = {
-    CELERY_BROKER_URL = var.caravan_celery_broker_url
-  }
-
 }
