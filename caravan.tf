@@ -81,6 +81,7 @@ resource "kubernetes_ingress_v1" "caravan-load" {
 
   spec {
     rule {
+      host = "caravan-load.likeminds.community"
       http {
         path {
           backend {

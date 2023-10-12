@@ -81,6 +81,7 @@ resource "kubernetes_ingress_v1" "swarm-load" {
 
   spec {
     rule {
+      host = "swarm-load.likeminds.community"
       http {
         path {
           backend {
