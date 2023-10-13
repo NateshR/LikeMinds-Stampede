@@ -76,7 +76,6 @@ resource "kubernetes_ingress_v1" "caravan-load" {
       "kubernetes.io/ingress.class": "gce"
       "kubernetes.io/ingress.allow-http": "true"
       "kubernetes.io/ingress.global-static-ip-name": "caravan-load-testing-static-ip"
-      "networking.gke.io/v1beta1.FrontendConfig": "lb-http-to-https"
     }
   }
 
