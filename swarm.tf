@@ -1,6 +1,8 @@
 resource "kubernetes_deployment" "swarm-load" {
   count = var.enable_swarm ? 1 : 0
 
+  depends_on = [kubernetes_namespace.app-deploy-load]
+
   metadata {
     name      = var.swarm_app_name
     namespace = var.namespace_name
@@ -45,6 +47,8 @@ resource "kubernetes_deployment" "swarm-load" {
 resource "kubernetes_service" "swarm-load" {
   count = var.enable_swarm ? 1 : 0
 
+  depends_on = [kubernetes_namespace.app-deploy-load]
+
   metadata {
     name      = var.swarm_app_name
     namespace = var.namespace_name
@@ -68,6 +72,8 @@ resource "kubernetes_service" "swarm-load" {
 
 resource "kubernetes_ingress_v1" "swarm-load" {
   count = var.enable_swarm ? 1 : 0
+
+  depends_on = [kubernetes_namespace.app-deploy-load]
   
   metadata {
     name = var.swarm_app_name

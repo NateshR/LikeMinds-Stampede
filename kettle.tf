@@ -1,6 +1,8 @@
 resource "kubernetes_deployment" "kettle-load" {
   count = var.enable_kettle ? 1 : 0
 
+  depends_on = [kubernetes_namespace.app-deploy-load]
+
   metadata {
     name      = var.kettle_app_name
     namespace = var.namespace_name
@@ -45,6 +47,8 @@ resource "kubernetes_deployment" "kettle-load" {
 resource "kubernetes_service" "kettle-load" {
   count = var.enable_kettle ? 1 : 0
 
+  depends_on = [kubernetes_namespace.app-deploy-load]
+
   metadata {
     name      = var.kettle_app_name
     namespace = var.namespace_name
@@ -68,6 +72,8 @@ resource "kubernetes_service" "kettle-load" {
 
 resource "kubernetes_ingress_v1" "kettle-load" {
   count = var.enable_kettle ? 1 : 0
+
+  depends_on = [kubernetes_namespace.app-deploy-load]
   
   metadata {
     name = var.kettle_app_name

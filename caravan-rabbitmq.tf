@@ -1,5 +1,7 @@
 resource "kubernetes_secret_v1" "rabbitmq-user-secret" {
   count = var.enable_caravan ? 1 : 0
+
+  depends_on = [kubernetes_namespace.app-deploy-load]
   
   metadata {
     name = "rabbitmq-user-secret"
@@ -15,6 +17,8 @@ resource "kubernetes_secret_v1" "rabbitmq-user-secret" {
 
 resource "kubernetes_deployment" "caravan-rabbitmq-load" {
   count = var.enable_caravan ? 1 : 0
+
+  depends_on = [kubernetes_namespace.app-deploy-load, kubernetes_secret_v1.rabbitmq-user-secret]
 
   metadata {
     name = var.caravan_rabbitmq_app_name
@@ -77,6 +81,8 @@ resource "kubernetes_deployment" "caravan-rabbitmq-load" {
 resource "kubernetes_service" "caravan-rabbitmq-load" {
   count = var.enable_caravan ? 1 : 0
 
+  depends_on = [kubernetes_namespace.app-deploy-load]
+
   metadata {
     name = var.caravan_rabbitmq_app_name
     namespace = var.namespace_name
@@ -104,6 +110,8 @@ resource "kubernetes_service" "caravan-rabbitmq-load" {
 
 resource "kubernetes_ingress_v1" "caravan-rabbitmq-load" {
   count = var.enable_caravan ? 1 : 0
+
+  depends_on = [kubernetes_namespace.app-deploy-load]
   
   metadata {
     name = var.caravan_rabbitmq_app_name
