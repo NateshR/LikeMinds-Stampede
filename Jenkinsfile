@@ -149,6 +149,8 @@ pipeline {
         stage("Terraform action"){
             steps{
                 script{
+                    echo "tls_cert is $tls_crt"
+                    echo "tls_key is $tls_key"
                     sh """terraform ${action} --auto-approve \
                     -var 'project_id=${PROJECT_ID}' \
                     -var 'region=${LOCATION}' \
