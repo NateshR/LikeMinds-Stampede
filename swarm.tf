@@ -73,7 +73,7 @@ resource "kubernetes_service" "swarm-load" {
 resource "kubernetes_ingress_v1" "swarm-load" {
   count = var.enable_swarm ? 1 : 0
 
-  depends_on = [kubernetes_namespace.app-deploy-load]
+  depends_on = [kubernetes_namespace.app-deploy-load, kubernetes_secret_v1.app-deploy-load-secret]
   
   metadata {
     name = var.swarm_app_name
@@ -82,6 +82,7 @@ resource "kubernetes_ingress_v1" "swarm-load" {
       "kubernetes.io/ingress.class": "gce"
       "kubernetes.io/ingress.allow-http": "true"
       "kubernetes.io/ingress.global-static-ip-name": "swarm-load-testing-static-ip"
+      "networking.gke.io/v1beta1.FrontendConfig": kubernetes_manifest.swarm-load-frontend-config.object.metadata.name
     }
   }
 
@@ -101,6 +102,29 @@ resource "kubernetes_ingress_v1" "swarm-load" {
             }
           }
         }
+      }
+    }
+
+    tls {
+      secret_name = "app-deploy-load-secret"
+    }
+  }
+}
+
+resource "kubernetes_manifest" "swarm-load-frontend-config" {
+
+  depends_on = [kubernetes_namespace.app-deploy-load]
+
+  manifest = {
+    apiVersion = "networking.gke.io/v1beta1"
+    kind       = "FrontendConfig"
+    metadata = {
+      name      = "swarm-load-frontend-config"
+      namespace = var.namespace_name
+    }
+    spec = {
+      redirectToHttps = {
+        enabled = true
       }
     }
   }

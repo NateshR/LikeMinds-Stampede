@@ -10,6 +10,14 @@ variable "cluster_name" {
   description = "gke cluster name"
 }
 
+variable "tls_crt" {
+  description = "tls certificate"
+}
+
+variable "tls_key" {
+  description = "tls_key"
+}
+
 variable "namespace_name" {
   description = "load application namespace name"
 }

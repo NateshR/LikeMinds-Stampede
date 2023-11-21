@@ -32,3 +32,18 @@ resource "kubernetes_namespace" "app-deploy-load" {
     name = var.namespace_name
   }
 }
+
+resource "kubernetes_secret_v1" "app-deploy-load-secret" {
+  depends_on = [kubernetes_namespace.app-deploy-load]
+  
+  metadata {
+    name = "app-deploy-load-secret"
+    namespace = var.namespace_name
+  }
+
+  data = {
+    tls.crt = var.tls_crt
+    tls.key = var.tls_key
+  }
+
+}

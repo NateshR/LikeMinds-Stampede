@@ -95,38 +95,3 @@ resource "kubernetes_service" "caravan-celery-load" {
     type = "ClusterIP"
   }
 }
-
-resource "kubernetes_ingress_v1" "caravan-celery-load" {
-  count = var.enable_caravan ? 1 : 0
-
-  depends_on = [kubernetes_namespace.app-deploy-load]
-  
-  metadata {
-    name = var.caravan_celery_app_name
-    namespace = var.namespace_name
-    annotations = {
-      "kubernetes.io/ingress.class": "gce"
-      "kubernetes.io/ingress.allow-http": "true"
-      "kubernetes.io/ingress.global-static-ip-name": "caravan-celery-load-testing-static-ip"
-    }
-  }
-
-  spec {
-    rule {
-      http {
-        path {
-          path = "/"
-          path_type = "Prefix"
-          backend {
-            service {
-              name = var.caravan_celery_app_name
-              port {
-                number = 5672
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}

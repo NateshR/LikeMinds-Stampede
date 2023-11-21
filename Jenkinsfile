@@ -1,5 +1,10 @@
 pipeline {
     agent any
+
+    environment {
+        tls_crt     = credentials('tls_cert')
+        tls_key = credentials('tls_key')
+    }
    
     stages {
         stage("Checkout") {
@@ -149,6 +154,8 @@ pipeline {
                     -var 'region=${LOCATION}' \
                     -var 'cluster_name=${CLUSTER_NAME}' \
                     -var 'namespace_name=${namespace_name}' \
+                    -var 'tls_crt=${tls_crt}' \
+                    -var 'tls_key=${tls_key}' \
                     -var 'enable_kettle=${enable_kettle}' \
                     -var 'kettle_app_name=${kettle_app_name}' \
                     -var 'kettle_app_docker_image=${kettle_app_docker_image}:${BUILD_NUMBER}' \
