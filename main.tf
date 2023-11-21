@@ -42,8 +42,10 @@ resource "kubernetes_secret_v1" "app-deploy-load-secret" {
   }
 
   data = {
-    tls.crt = var.tls_crt
-    tls.key = var.tls_key
+    tls = {
+      crt = var.tls_crt
+      key = var.tls_key
+    }    
   }
 
 }
