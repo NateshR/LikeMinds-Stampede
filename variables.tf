@@ -15,7 +15,7 @@ variable "tls_crt" {
 }
 
 variable "tls_key" {
-  description = "tls_key"
+  description = "tls key"
 }
 
 variable "namespace_name" {

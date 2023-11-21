@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        tls_crt     = credentials('tls_cert')
-        tls_key     = credentials('tls_key')
+        tls_crt     = credentials('tls-crt')
+        tls_key     = credentials('tls-key')
     }
    
     stages {
