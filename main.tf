@@ -41,6 +41,8 @@ resource "kubernetes_secret_v1" "app-deploy-load-secret" {
     namespace = var.namespace_name
   }
 
+  type = "kubernetes.io/tls"
+
   data = {
     "tls.crt" = var.tls_crt
     "tls.key" = var.tls_key
