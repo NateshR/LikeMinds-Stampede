@@ -44,8 +44,8 @@ resource "kubernetes_secret_v1" "app-deploy-load-secret" {
   type = "kubernetes.io/tls"
 
   data = {
-    "tls.crt" = var.tls_crt
-    "tls.key" = var.tls_key
+    "tls.crt" = base64decode(var.tls_crt)
+    "tls.key" = base64decode(var.tls_key)
   }
 
 }
