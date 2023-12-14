@@ -78,13 +78,13 @@ pipeline {
                         git branch: "${caravan_branch}", credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/Togther/'
                         sh 'echo "Caravan code cloned"'
 
-                        sh '''
+                        sh """
                         gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="sudo chown -R jenkins /home/apps/caravan-load-testing/"
-                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-load-testing/Togther && git checkout development && git pull"
+                        gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-load-testing/Togther && git checkout ${caravan_branch} && git pull"
                         gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="chmod +x /home/apps/caravan-load-testing/Togther/Migrationfile-caravan-load.sh"
                         gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command=". /home/apps/caravan-load-testing/Togther/Migrationfile-caravan-load.sh"
                         gcloud compute ssh likeminds-nonprod-migration-vm --zone=asia-south1-a --internal-ip --command="cd /home/apps/caravan-load-testing/Togther && git checkout ."
-                        '''
+                        """
                         sh 'echo "Caravan Migration done"'
 
                         sh 'gcloud auth configure-docker asia.gcr.io'
