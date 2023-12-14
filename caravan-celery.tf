@@ -28,7 +28,7 @@ resource "kubernetes_deployment" "caravan-celery-load" {
   }
 
   spec {
-    replicas = 1
+    replicas = var.caravan_celery_pods
 
     selector {
       match_labels = {

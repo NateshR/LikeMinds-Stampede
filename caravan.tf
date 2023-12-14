@@ -12,7 +12,7 @@ resource "kubernetes_deployment" "caravan-load" {
   }
 
   spec {
-    replicas = 1
+    replicas = var.caravan_pods
 
     selector {
       match_labels = {

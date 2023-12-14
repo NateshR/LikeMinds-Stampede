@@ -12,7 +12,7 @@ resource "kubernetes_deployment" "kettle-load" {
   }
 
   spec {
-    replicas = 1
+    replicas = var.kettle_pods
 
     selector {
       match_labels = {

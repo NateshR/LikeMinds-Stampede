@@ -21,7 +21,7 @@ pipeline {
                 echo 'Kettle Selected'
                 script {
                     dir('likeminds-authentication') {
-                        git branch: 'development', credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/LikeMinds-Authentication/'
+                        git branch: "${kettle_branch}", credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/LikeMinds-Authentication/'
                         sh 'echo "Kettle code cloned"'
 
                         sh 'gcloud auth configure-docker asia.gcr.io'
@@ -48,7 +48,7 @@ pipeline {
                 echo 'Swarm Selected'
                 script {
                     dir('likeminds-swarm') {
-                        git branch: 'development', credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/LikeMinds-Swarm/'
+                        git branch: "${swarm_branch}", credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/LikeMinds-Swarm/'
                         sh 'echo "Swarm code cloned"'
 
                         sh 'gcloud auth configure-docker asia.gcr.io'
@@ -75,7 +75,7 @@ pipeline {
                 echo 'Caravan Selected'
                 script {
                     dir('likeminds-caravan') {
-                        git branch: 'development', credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/Togther/'
+                        git branch: "${caravan_branch}", credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/Togther/'
                         sh 'echo "Caravan code cloned"'
 
                         sh '''
@@ -111,7 +111,7 @@ pipeline {
                 echo 'Caravan Celery Selected'
                 script {
                     dir('likeminds-caravan-celery') {
-                        git branch: 'development', credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/Togther/'
+                        git branch: "${caravan_celery_branch}", credentialsId: 'df5b81c3-2bfe-4938-a421-5f55f996e76a', url: 'https://github.com/NateshR/Togther/'
                         sh 'echo "Caravan Celery code cloned"'
 
                         sh 'gcloud auth configure-docker asia.gcr.io'
@@ -156,20 +156,24 @@ pipeline {
                     -var 'kettle_app_docker_image=${kettle_app_docker_image}:${BUILD_NUMBER}' \
                     -var 'kettle_cpu=${kettle_cpu}' \
                     -var 'kettle_memory=${kettle_memory}' \
+                    -var 'kettle_pods=${kettle_pods}' \
                     -var 'enable_swarm=${enable_swarm}' \
                     -var 'swarm_app_name=${swarm_app_name}' \
                     -var 'swarm_app_docker_image=${swarm_app_docker_image}:${BUILD_NUMBER}' \
                     -var 'swarm_cpu=${swarm_cpu}' \
                     -var 'swarm_memory=${swarm_memory}' \
+                    -var 'swarm_pods=${swarm_pods}' \
                     -var 'enable_caravan=${enable_caravan}' \
                     -var 'caravan_app_name=${caravan_app_name}' \
                     -var 'caravan_app_docker_image=${caravan_app_docker_image}:${BUILD_NUMBER}' \
                     -var 'caravan_cpu=${caravan_cpu}' \
                     -var 'caravan_memory=${caravan_memory}' \
+                    -var 'caravan_pods=${caravan_pods}' \
                     -var 'caravan_celery_app_name=${caravan_celery_app_name}' \
                     -var 'caravan_celery_app_docker_image=${caravan_celery_app_docker_image}:${BUILD_NUMBER}' \
                     -var 'caravan_celery_cpu=${caravan_celery_cpu}' \
                     -var 'caravan_celery_memory=${caravan_celery_memory}' \
+                    -var 'caravan_celery_pods=${caravan_celery_pods}' \
                     -var 'caravan_celery_broker_url=${caravan_celery_broker_url}' \
                     -var 'caravan_rabbitmq_app_name=${caravan_rabbitmq_app_name}' \
                     -var 'caravan_rabbitmq_app_docker_image=${caravan_rabbitmq_app_docker_image}' \

@@ -12,7 +12,7 @@ resource "kubernetes_deployment" "swarm-load" {
   }
 
   spec {
-    replicas = 1
+    replicas = var.swarm_pods
 
     selector {
       match_labels = {

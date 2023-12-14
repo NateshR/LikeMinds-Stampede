@@ -42,6 +42,10 @@ variable "kettle_memory" {
   description = "kettle memory"
 }
 
+variable "kettle_pods" {
+  description = "kettle pods count"
+}
+
 variable "enable_swarm" {
   description = "if to enable swarm service"
 }
@@ -60,6 +64,10 @@ variable "swarm_cpu" {
 
 variable "swarm_memory" {
   description = "swarm memory"
+}
+
+variable "swarm_pods" {
+  description = "swarm pods count"
 }
 
 variable "enable_caravan" {
@@ -82,6 +90,10 @@ variable "caravan_memory" {
   description = "caravan memory"
 }
 
+variable "caravan_pods" {
+  description = "caravan pods count"
+}
+
 variable "caravan_celery_app_name" {
   description = "caravan celery app name"
 }
@@ -96,6 +108,10 @@ variable "caravan_celery_cpu" {
 
 variable "caravan_celery_memory" {
   description = "caravan celery memory"
+}
+
+variable "caravan_celery_pods" {
+  description = "caravan celery pods count"
 }
 
 variable "caravan_celery_broker_url" {
