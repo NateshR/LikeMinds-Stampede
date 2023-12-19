@@ -49,10 +49,10 @@ resource "kubernetes_deployment" "caravan-rabbitmq-load" {
           image = var.caravan_rabbitmq_app_docker_image
           name  = var.caravan_rabbitmq_app_name
           port {
-            container_port = 5672
+            container_port = local.http_port_5672
           }
           port {
-            container_port = 15672
+            container_port = local.http_port_15672
           }
           env {
             name = "RABBITMQ_DEFAULT_USER"
@@ -95,16 +95,16 @@ resource "kubernetes_service" "caravan-rabbitmq-load" {
       app = var.caravan_rabbitmq_app_name
     }
     port {
-      name = "http"
-      port        = 15672
-      target_port = 15672
+      name = local.http_port_service
+      port        = local.http_port_15672
+      target_port = local.http_port_15672
     }
     port {
-      name = "amqp"
-      port = 5672
-      target_port = 5672
+      name = local.amqp_port_service
+      port = local.http_port_5672
+      target_port = local.http_port_5672
     }
-    type = "ClusterIP"
+    type = local.type_cluster_ip
   }
 }
 
@@ -133,7 +133,7 @@ resource "kubernetes_ingress_v1" "caravan-rabbitmq-load" {
             service {
               name = var.caravan_rabbitmq_app_name
               port {
-                number = 15672
+                number = local.http_port_15672
               }
             }
           }

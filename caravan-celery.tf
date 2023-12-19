@@ -88,10 +88,10 @@ resource "kubernetes_service" "caravan-celery-load" {
       app = var.caravan_celery_app_name
     }
     port {
-      name = "http"
-      port        = 5672
-      target_port = 5672
+      name = local.http_port_service
+      port        = local.http_port_5672
+      target_port = local.http_port_5672
     }
-    type = "ClusterIP"
+    type = local.type_cluster_ip
   }
 }

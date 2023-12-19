@@ -62,11 +62,11 @@ resource "kubernetes_service" "kettle-load" {
       app = var.kettle_app_name
     }
     port {
-      name        = "http"
-      port        = 8080
-      target_port = 8080
+      name        = local.http_port_service
+      port        = local.http_port_8080
+      target_port = local.http_port_8080
     }
-    type = "ClusterIP"
+    type = local.type_cluster_ip
   }
 }
 
@@ -97,7 +97,7 @@ resource "kubernetes_ingress_v1" "kettle-load" {
             service {
               name = var.kettle_app_name
               port {
-                number = 8080
+                number = local.http_port_8080
               }
             }
           }

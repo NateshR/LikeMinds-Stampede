@@ -6,7 +6,7 @@ terraform {
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 2.6.2"
+      version = "= 2.20.0"
     }
   }
 }
@@ -48,4 +48,14 @@ resource "kubernetes_secret_v1" "app-deploy-load-secret" {
     "tls.key" = base64decode(var.tls_key)
   }
 
+}
+
+locals {
+  http_port_service = "http" 
+  amqp_port_service = "amqp"
+  http_port_8080 = 8080
+  http_port_8081 = 8081
+  http_port_15672 = 15672
+  http_port_5672 = 5672
+  type_cluster_ip = "ClusterIP"
 }
