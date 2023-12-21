@@ -58,5 +58,5 @@ locals {
   http_port_15672 = 15672
   http_port_5672 = 5672
   type_cluster_ip = "ClusterIP"
-  app_version = "1.0.0"
+  app_version = "0.1.0"
 }
